@@ -1,10 +1,12 @@
 <script setup lang="ts">
+
 	const props = defineProps({
 		error: Object,
 	});
 
 	const fatal = props.error?.statusCode === 404 ? false : true;
 	// console.log(fatal);
+	console.log(props.error)
 
 	const handleError = () => clearError({ redirect: "/" });
 </script>

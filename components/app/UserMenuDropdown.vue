@@ -71,9 +71,9 @@
 			</NuxtLink>
 		</div>
 		<div @click="closeDrawer()" class="menu-item px-5">
-			<NuxtLink to="/app/profile/" class="menu-link px-5">
+			<NuxtLink to="/app/account-info" class="menu-link px-5">
 				<div class="d-flex flex-column align-items-start">
-					<span>Account Limits</span>
+					<span>Account Info</span>
 					<small class="text-muted fs-8"
 						>View your transaction limits</small
 					>

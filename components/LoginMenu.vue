@@ -1,13 +1,21 @@
 <script setup lang="ts">
-	import axios, {
-		AxiosError,
-		AxiosRequestConfig,
-		AxiosResponse,
-	} from "axios";
+	import axios, { AxiosResponse } from "axios";
 	import type { AuthToken } from "~/utils/interfaces/AuthToken";
 
 	const appConfig = useRuntimeConfig();
 	const auth = useAuth();
+	const appResource = useAppResource();
+	appResource.setCountry();
+	const countries = appResource.countries;
+	try {
+		const rInterval = setInterval(() => {
+			if (rForm.value.country) {
+				clearInterval(rInterval);
+			} else {
+				rForm.value.country = appResource.country.value.name.common;
+			}
+		}, 2000);
+	} catch (error) {}
 
 	const form = ref({
 		email: "",
@@ -40,6 +48,7 @@
 	const isInvalidCredentials = ref<boolean | null>(null);
 	const passwordType = ref("password");
 	const invalidMessage = ref("");
+	const loading = ref(false);
 
 	const validateEmail = (email: string) => {
 		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -112,16 +121,21 @@
 			timeout: 15000,
 		};
 
+		loading.value = true;
+
 		loginButton.value.setAttribute("data-kt-indicator", "on");
 
 		axios
 			.request(axiosConfig)
 			.then((response: AxiosResponse<AuthToken, any>) => {
-			
-				closeModalBtn.value.click();
-				console.log("Response", response.data)
-
-				auth.login(response.data);
+				console.log("Response", response.data);
+				const authUser = response.data.user;
+				if (authUser.verified || authUser.userType === "admin") {
+					closeModalBtn.value.click();
+					auth.login(response.data);
+				} else {
+					infoAlert("Account not verified!");
+				}
 				// successAlert("Welcome!");
 			})
 			.catch((error): void => {
@@ -138,6 +152,7 @@
 				console.log(error);
 			})
 			.finally(() => {
+				loading.value = false;
 				loginButton.value.removeAttribute("data-kt-indicator");
 			});
 	};
@@ -150,6 +165,7 @@
 			);
 		}
 
+		loading.value = true;
 		rForm.value.password = form.value.password;
 
 		const axiosConfig: any = {
@@ -165,8 +181,9 @@
 			.request(axiosConfig)
 			.then((response: AxiosResponse<AuthToken, any>) => {
 				console.log(response.data);
-
-				auth.login(response.data);
+				successAlert("Account Created. Login now!");
+				authAction.value = "login";
+				// auth.login(response.data);
 			})
 			.catch((error): void => {
 				const errRes = error.response;
@@ -177,9 +194,12 @@
 				} else errorAlert("Error occurred, check your internet!");
 			})
 			.finally(() => {
+				loading.value = false;
 				regButton.value.removeAttribute("data-kt-indicator");
 			});
 	};
+
+	onMounted(() => {});
 </script>
 <template>
 	<div class="modal fade" tabindex="-1" id="kt_modal_login">
@@ -296,6 +316,7 @@
 							<button
 								ref="loginButton"
 								class="btn btn-secondary w-100 mb-5"
+								:class="loading ? 'disabled' : ''"
 							>
 								<span class="indicator-label"> Login </span>
 								<!--end::Indicator label-->
@@ -371,13 +392,17 @@
 
 						<div class="px-5 menu-item mb-3">
 							<label for="" class="form-label">Country</label>
-							<input
-								required
-								type="country"
-								class="form-control form-control-solid"
+							<select
 								v-model="rForm.country"
-								name="country"
-							/>
+								class="form-control"
+							>
+								<option
+									:value="country.name.common"
+									v-for="country in countries"
+								>
+									{{ country.name.common }}
+								</option>
+							</select>
 							<div class="invalid-feedback">
 								Country is required
 							</div>
@@ -430,6 +455,7 @@
 								"
 								ref="regButton"
 								class="btn btn-secondary w-100"
+								:class="loading ? 'disabled' : ''"
 							>
 								<span class="indicator-label">
 									Create account
@@ -496,6 +522,7 @@
 							<button
 								ref="regButton"
 								class="btn btn-secondary w-100"
+								:class="loading ? 'disabled' : ''"
 							>
 								<span class="indicator-label">
 									Recover password

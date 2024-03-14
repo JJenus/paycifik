@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	const showPreference = ref(true);
+	const showPreference = ref("pref");
 </script>
 <template>
 	<div class="card card-flush pb-0 bgi-position-y-center bgi-no-repeat mb-10">
@@ -23,9 +23,9 @@
 						v-if="showPreference"
 						class="text-muted fw-bold d-noine"
 					>
-						<span class="text-info">Email</span>
+						<span class="text-info">Default</span>
 						<span class="mx-3">|</span>
-						<span href="#">Notifications</span>
+						<span href="#">Tiers</span>
 					</div>
 					<div v-else class="text-muted fw-bold">
 						<span class="text-primary">Session Logs</span>
@@ -48,30 +48,27 @@
 					<!--begin::Nav item-->
 					<li class="nav-item">
 						<NuxtLink
-						to="/admin/settings"
-							@click="showPreference = true"
-							:class="showPreference ? 'active' : ''"
+							to="/admin/settings"
+							@click="showPreference = 'pref'"
+							:class="showPreference === 'pref' ? 'active' : ''"
 							class="nav-link text-active-primary me-6"
 							role="button"
 						>
-							Preferences
+							Default
 						</NuxtLink>
 					</li>
 					<!--end::Nav item-->
-
-					<!--begin::Nav item-->
 					<li class="nav-item">
 						<NuxtLink
-							@click="showPreference = false"
-							to="/admin/settings/security"
-							:class="showPreference ? '' : 'active'"
+							to="/admin/settings/tiers"
+							@click="showPreference = 'tiers'"
+							:class="showPreference === 'tiers' ? 'active' : ''"
 							class="nav-link text-active-primary me-6"
 							role="button"
 						>
-							Security
+							Account Info
 						</NuxtLink>
 					</li>
-					<!--end::Nav item-->
 				</ul>
 			</div>
 			<!--begin::Navs-->

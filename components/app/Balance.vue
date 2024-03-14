@@ -31,7 +31,7 @@
 		<!--begin::Text-->
 		<div class="d-flex align-items-center fw-bold mb-3">
 			<i class="ki-solid ki-medal-star text-info fs-1"> </i>
-			Tier 1
+			Tier {{ balance.accountLevel }}
 		</div>
 		<!--end::Text-->
 		<!--begin::Info-->
@@ -46,8 +46,9 @@
 			<span
 				v-if="balance.amount !== null"
 				class="page-title fs-2tx fw-bold me-2 lh-1 ls-n2"
-				>{{ getBalance() }}</span
 			>
+				{{ getBalance() }}
+			</span>
 			<span
 				v-else
 				class="spinner-border spinner-border-sm text-muted"
@@ -56,6 +57,11 @@
 			<!--end::Amount-->
 		</div>
 		<!--end::Info-->
+
+		<div class="mb-8">
+			<h6 class="text-muted">Account Number</h6>
+			<h1 class="fw-bold">{{ balance.accountNumber }}</h1>
+		</div>
 
 		<!--begin::Action-->
 		<div class="mb-2 d-flex">

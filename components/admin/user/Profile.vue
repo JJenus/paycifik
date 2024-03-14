@@ -8,9 +8,11 @@ import { log } from 'console'; import { verify } from 'crypto';
 	} from "axios";
 
 	const props = defineProps<{ user: IUser }>();
+	const tiers = useAppSettings().accountLevels;
 
 	const appConfig = useRuntimeConfig();
 	const submitButton = ref();
+	const newLevel = ref({ newLevel: props.user.account.accountLevel });
 
 	function getObject(obj: any): any {
 		const newObj: { [key: string]: any } = {};
@@ -24,13 +26,7 @@ import { log } from 'console'; import { verify } from 'crypto';
 		return newObj;
 	}
 
-	const verify = () => {
-		console.log("verifying...");
-		const user = props.user;
-		const data = getObject(props.user);
-		data.verified = true;
-		// console.log(user);
-
+	const save = (data: any) => {
 		const axiosConfig: AxiosRequestConfig = {
 			method: "put",
 			data: data,
@@ -57,9 +53,25 @@ import { log } from 'console'; import { verify } from 'crypto';
 				console.log(errRes);
 			})
 			.finally(() => {
-				if (!user.verified)
-					submitButton.value.removeAttribute("data-kt-indicator");
+				submitButton.value.removeAttribute("data-kt-indicator");
 			});
+	};
+
+	const verify = () => {
+		console.log("verifying...");
+		const user = props.user;
+		const data = getObject(props.user);
+		data.verified = true;
+		// console.log(user);
+		save(data);
+	};
+
+	const upgradeLevel = () => {
+		const user = props.user;
+		const data = { ...props.user };
+		data.account.accountLevel = newLevel.value.newLevel;
+		// console.log(user);
+		save(data);
 	};
 </script>
 <template>
@@ -118,6 +130,23 @@ import { log } from 'console'; import { verify } from 'crypto';
 
 		<!--begin::Card body-->
 		<div class="card-body p-9" bis_skin_checked="1">
+			<div class="row mb-7" bis_skin_checked="1">
+				<!--begin::Label-->
+				<label class="col-lg-4 fw-semibold text-muted"
+					>Update Level</label
+				>
+				<!--end::Label-->
+
+				<!--begin::Col-->
+				<div class="col-lg-8" bis_skin_checked="1">
+					<select v-model="newLevel.newLevel" name="" id="">
+						<option v-for="tier in tiers" :value="tier.accountLevel">
+							{{ tier.title }}
+						</option>
+					</select>
+				</div>
+				<!--end::Col-->
+			</div>
 			<!--begin::Row-->
 			<div class="row mb-7" bis_skin_checked="1">
 				<!--begin::Label-->
@@ -128,6 +157,25 @@ import { log } from 'console'; import { verify } from 'crypto';
 				<div class="col-lg-8" bis_skin_checked="1">
 					<span class="fw-bold fs-6 text-gray-800">
 						{{ user?.name }}
+					</span>
+				</div>
+				<!--end::Col-->
+			</div>
+
+			<div class="row mb-7" bis_skin_checked="1">
+				<!--begin::Label-->
+				<label class="col-lg-4 fw-semibold text-muted">Tier</label>
+				<!--end::Label-->
+
+				<!--begin::Col-->
+				<div
+					v-for="tier in tiers"
+					v-if="tier.accountLevel === user.account.accountLevel"
+					class="col-lg-8"
+					bis_skin_checked="1"
+				>
+					<span class="badge bg-success fs-6">
+						{{ tier.title }}
 					</span>
 				</div>
 				<!--end::Col-->

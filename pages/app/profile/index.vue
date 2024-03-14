@@ -17,7 +17,7 @@
 					<!--begin::Col-->
 					<div class="col-sm-8">
 						<span class="fw-bold fs-6 text-gray-800">
-							{{ user?.name }}
+							{{ user.name }}
 						</span>
 					</div>
 					<!--end::Col-->

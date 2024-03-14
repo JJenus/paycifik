@@ -4,6 +4,8 @@ export type Account = {
 	currencyId: string;
 	amount: number | null;
 	status: AccountStatus;
+	accountLevel: number;
+	accountNumber: number;
 };
 
 export enum AccountStatus {

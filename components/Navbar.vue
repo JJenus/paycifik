@@ -6,7 +6,6 @@
 		},
 	});
 	const route = useRoute();
-	console.log("Route Name: ", route.path)
 	const active = ref(route.path);
 </script>
 
