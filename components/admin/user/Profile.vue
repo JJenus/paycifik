@@ -13,6 +13,7 @@ import { log } from 'console'; import { verify } from 'crypto';
 	const appConfig = useRuntimeConfig();
 	const submitButton = ref();
 	const newLevel = ref({ newLevel: props.user.account.accountLevel });
+	const loading = ref(false);
 
 	function getObject(obj: any): any {
 		const newObj: { [key: string]: any } = {};
@@ -26,33 +27,34 @@ import { log } from 'console'; import { verify } from 'crypto';
 		return newObj;
 	}
 
-	const save = (data: any) => {
+	const save = (data: any, url: string) => {
 		const axiosConfig: AxiosRequestConfig = {
 			method: "put",
 			data: data,
-			url: `${appConfig.public.BE_API}/users/${data.id}`,
+			url: `${appConfig.public.BE_API}/${url}`,
 			timeout: 20000,
 			headers: {
 				Authorization: "Bearer " + useAuth().userData.value?.token,
 			},
 		};
-
+		loading.value = true;
 		submitButton.value.setAttribute("data-kt-indicator", "on");
 		// return;
 		axios
 			.request(axiosConfig)
 			.then((response: AxiosResponse<IUser, any>) => {
 				console.log("Yes ", response.data);
-				successAlert("Verified!");
-				user.verified = true;
+				successAlert("Success!");
+				userData();
 			})
 			.catch((err: AxiosError<any, any>) => {
 				const errRes = err.response;
 				console.log("Status: ", errRes?.status);
-				errorAlert("Verification failed!");
+				errorAlert("failed!");
 				console.log(errRes);
 			})
 			.finally(() => {
+				loading.value = false;
 				submitButton.value.removeAttribute("data-kt-indicator");
 			});
 	};
@@ -63,15 +65,15 @@ import { log } from 'console'; import { verify } from 'crypto';
 		const data = getObject(props.user);
 		data.verified = true;
 		// console.log(user);
-		save(data);
+		save(data, `users/${data.id}`);
 	};
 
 	const upgradeLevel = () => {
 		const user = props.user;
-		const data = { ...props.user };
-		data.account.accountLevel = newLevel.value.newLevel;
+		const data = { ...user.account };
+		data.accountLevel = newLevel.value.newLevel;
 		// console.log(user);
-		save(data);
+		save(data, "account");
 	};
 </script>
 <template>
@@ -130,7 +132,7 @@ import { log } from 'console'; import { verify } from 'crypto';
 
 		<!--begin::Card body-->
 		<div class="card-body p-9" bis_skin_checked="1">
-			<div class="row mb-7" bis_skin_checked="1">
+			<div class="row mb-7 g-5" bis_skin_checked="1">
 				<!--begin::Label-->
 				<label class="col-lg-4 fw-semibold text-muted"
 					>Update Level</label
@@ -138,12 +140,27 @@ import { log } from 'console'; import { verify } from 'crypto';
 				<!--end::Label-->
 
 				<!--begin::Col-->
-				<div class="col-lg-8" bis_skin_checked="1">
-					<select v-model="newLevel.newLevel" name="" id="">
-						<option v-for="tier in tiers" :value="tier.accountLevel">
+				<div class="col-lg-8 d-flex" bis_skin_checked="1">
+					<select v-model="newLevel.newLevel" class="form-control">
+						<option
+							v-for="tier in tiers"
+							:value="tier.accountLevel"
+						>
 							{{ tier.title }}
 						</option>
 					</select>
+
+					<button
+						:disabled="loading"
+						@click="upgradeLevel()"
+						class="btn btn-primary ms-3"
+					>
+						<span v-if="!loading">Save</span>
+						<span
+							v-else
+							class="spinner-border spinner-border-sm"
+						></span>
+					</button>
 				</div>
 				<!--end::Col-->
 			</div>
@@ -164,17 +181,23 @@ import { log } from 'console'; import { verify } from 'crypto';
 
 			<div class="row mb-7" bis_skin_checked="1">
 				<!--begin::Label-->
-				<label class="col-lg-4 fw-semibold text-muted">Tier</label>
+				<label class="col-5 col-lg-4 fw-semibold text-muted"
+					>Account Level</label
+				>
 				<!--end::Label-->
 
 				<!--begin::Col-->
 				<div
 					v-for="tier in tiers"
-					v-if="tier.accountLevel === user.account.accountLevel"
-					class="col-lg-8"
+					class="col-6 col-lg-8"
 					bis_skin_checked="1"
+					:class="
+						tier.accountLevel !== user.account.accountLevel
+							? 'd-none'
+							: ''
+					"
 				>
-					<span class="badge bg-success fs-6">
+					<span class="badge bg-secondary p-2 px-4 fs-6">
 						{{ tier.title }}
 					</span>
 				</div>

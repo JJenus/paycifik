@@ -9,7 +9,7 @@ export interface IUser {
 	address: string;
 	city: string;
 	country: string;
-	dob: string;
+	dob: string | undefined;
 	verified: boolean;
 	emailVerified: boolean;
 	userType: string;
