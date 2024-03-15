@@ -2,10 +2,7 @@
 	const user = userData().data;
 	const image = user.value.imgUrl || "/assets/media/svg/avatars/blank.svg";
 
-	// onMounted(() => {
-	// 	user.value.imgUrl =
-	// 		user.value.imgUrl || "image";
-	// });
+	const tiers = useAppSettings().accountLevels;
 </script>
 
 <template>
@@ -52,7 +49,15 @@
 					>
 						<i class="ki-solid ki-medal-star text-primary fs-2">
 						</i>
-						Tier 1
+						<span v-for="tier in tiers">
+							<span
+								v-if="
+									balance.accountLevel === tier.accountLevel
+								"
+							>
+								{{ tier.title }}
+							</span>
+						</span>
 					</div>
 				</div>
 				<!--end::Username-->

@@ -2,6 +2,7 @@
 	import currency from "currency.js";
 
 	const balance = userData().account;
+	const tiers = useAppSettings().accountLevels;
 
 	const getBalance = () => {
 		let cAmount = balance.value.amount || 0;
@@ -31,7 +32,12 @@
 		<!--begin::Text-->
 		<div class="d-flex align-items-center fw-bold mb-3">
 			<i class="ki-solid ki-medal-star text-info fs-1"> </i>
-			Tier {{ balance.accountLevel }}
+			{{ balance.accountLevel }}
+			<span v-for="tier in tiers">
+				<span v-if="balance.accountLevel === tier.accountLevel">
+					{{ tier.title }}
+				</span>
+			</span>
 		</div>
 		<!--end::Text-->
 		<!--begin::Info-->
