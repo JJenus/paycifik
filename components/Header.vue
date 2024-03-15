@@ -122,7 +122,7 @@
 
 					<div v-else>
 						<div
-							class="btn theme-light-show btn-outline btn-outline-info btn-custom fw-bold"
+							class="d-none btn theme-light-show btn-outline btn-outline-info btn-custom fw-bold"
 							data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
 							data-kt-menu-attach="parent"
 							data-kt-menu-placement="bottom"
