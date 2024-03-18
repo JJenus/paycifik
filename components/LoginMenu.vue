@@ -5,14 +5,18 @@
 	const appConfig = useRuntimeConfig();
 	const auth = useAuth();
 	const appResource = useAppResource();
-	appResource.setCountry();
+	const userCountry = appResource.country;
+
 	const countries = appResource.countries;
 	try {
 		const rInterval = setInterval(() => {
 			if (rForm.value.country) {
 				clearInterval(rInterval);
 			} else {
-				rForm.value.country = appResource.country.value.name.common;
+				try {
+					if (userCountry.value.name)
+						rForm.value.country = userCountry.value.name.common;
+				} catch (error) {}
 			}
 		}, 2000);
 	} catch (error) {}
@@ -115,10 +119,10 @@
 
 	const login = () => {
 		const axiosConfig: any = {
-			method: "post",
+			method: "POST",
 			data: form.value,
 			url: `${appConfig.public.BE_API}/auth/login`,
-			timeout: 15000,
+			timeout: 20000,
 		};
 
 		loading.value = true;
@@ -153,7 +157,7 @@
 			})
 			.finally(() => {
 				loading.value = false;
-				loginButton.value.removeAttribute("data-kt-indicator");
+				loginButton.value.setAttribute("data-kt-indicator", "");
 			});
 	};
 

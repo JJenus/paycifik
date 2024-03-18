@@ -2,8 +2,8 @@ import axios from "axios";
 
 export const useAppResource = () => {
 	const countries = useState<any[]>("form-countries", () => []);
-	const country = useState<any>("user-country", () => "");
-	const rawCountries = [
+	const country = useState<any>("user-country", () => {});
+	countries.value = [
 		{
 			name: {
 				common: "Cyprus",
@@ -33,10 +33,6 @@ export const useAppResource = () => {
 				common: "Eritrea",
 				official: "State of Eritrea",
 				nativeName: {
-					ara: {
-						official: "دولة إرتريا",
-						common: "إرتريا‎",
-					},
 					eng: {
 						official: "State of Eritrea",
 						common: "Eritrea",
@@ -4564,11 +4560,12 @@ export const useAppResource = () => {
 	const findCountryByAltSpellings = (altSpelling: string) => {
 		for (let country of countries.value) {
 			if (country.altSpellings.includes(altSpelling)) {
-				console.log("FOUND")
+				console.log("FOUND: ", country);
 				return country;
 			}
+			console.log(altSpelling + " -> searching: " + country.name.common);
 		}
-		return null; // Return null if country is not found
+		return countries.value[0]; // Return null if country is not found
 	};
 
 	const setCountry = () => {
@@ -4577,16 +4574,17 @@ export const useAppResource = () => {
 				url: "https://api.ip2location.io",
 				method: "GET",
 			})
-			.then((res) => {
-				console.log(res);
+			.then((res): void => {
+				console.log("Res Data: ", res.data);
 				country.value = findCountryByAltSpellings(
 					res.data.country_code
 				);
 			})
-			.catch((e) => console.log(e));
+			.catch((e) => console.log("Data: ", e));
 	};
 
-	countries.value = rawCountries;
+	setCountry();
+
 	return {
 		countries,
 		country,
