@@ -1,15 +1,5 @@
 <script setup>
 	if (process.client) {
-		window.$crisp = [];
-		// window.CRISP_WEBSITE_ID = "ab46de5e-8557-4883-b0c9-00eb75f2f17e";
-		(function () {
-			const d = document;
-			const s = d.createElement("script");
-			s.src = "//code.tidio.co/4cbfxicxozzxvxulxoiqsqvv4h1tjbiz.js";
-			s.async = true;
-			d.getElementsByTagName("head")[0].appendChild(s);
-		})();
-
 		const auth = useAuth();
 
 		const interval = setInterval(() => {
