@@ -50,7 +50,7 @@ export default defineNuxtConfig({
 				},
 				{
 					name: "twitter:title",
-					content: "NFTex",
+					content: "Paycifik",
 				},
 				{
 					name: "twitter:description",
@@ -59,11 +59,11 @@ export default defineNuxtConfig({
 				},
 				{
 					name: "twitter:image",
-					content: "/assets/media/logos/nftex-logo.png",
+					content: "/assets/media/logos/paycifik.png",
 				},
 				{
 					property: "og:title",
-					content: "NFTex",
+					content: "Paycifik",
 				},
 				{
 					property: "og:description",
@@ -72,7 +72,7 @@ export default defineNuxtConfig({
 				},
 				{
 					property: "og:image",
-					content: "/assets/media/logos/nftex-logo.png",
+					content: "/assets/media/logos/paycifik.png",
 				},
 				{
 					property: "og:url",
