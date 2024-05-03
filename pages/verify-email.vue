@@ -51,7 +51,7 @@
 				<div class="card card-flush w-lg-650px py-5">
 					<div class="card-body py-15 py-lg-20">
 						<!--begin::Logo-->
-						<div class="mb-14">
+						<div class="mb-14 text-center d-flex justify-content-center">
 							<NFTexLogo :classes="'h-30px'" />
 						</div>
 						<!--end::Logo-->

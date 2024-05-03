@@ -102,8 +102,8 @@
 
 					<!--begin::Image-->
 					<img
-						class="d-none d-lg-block mx-auto w-300px w-lg-75 w-xl-500px mb-10 mb-lg-20"
-						src="https://img.freepik.com/premium-vector/man-money-transfer-cash-withdrawal-with-wallet-smartphone-online-banking-transaction-payment-flat-concept-purple-illustration-web-landing-page-banner_174479-19.jpg"
+						class="d-none d-lg-block mx-auto w-300px w-lg-75 w-xl-250px mb-10 mb-lg-20 mt-15"
+						src="/assets/media/illustrations/misc/credit-card.png"
 						alt=""
 					/>
 					<!--end::Image-->

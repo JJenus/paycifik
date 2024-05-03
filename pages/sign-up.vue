@@ -103,12 +103,12 @@
 	<div class="d-flex flex-column flex-lg-row flex-column-fluid">
 		<!--begin::Aside-->
 		<div
-			class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center"
+			class="pt-8 w-lg-50 bgi-size-cover bgi-position-center"
 		>
 			<!-- style="background-image: url(/assets/media/misc/auth-bg.png)" -->
 
 			<!--begin::Content-->
-			<div class="d-flex flex-column flex-center p-6 p-lg-10 w-100">
+			<div class="d-flex flex-column flex-center p-6 w-100">
 				<!--begin::Logo-->
 
 				<NFTexLogo :classes="'h-60px'"/>
@@ -116,8 +116,8 @@
 
 				<!--begin::Image-->
 				<img
-					class="d-none d-lg-block mx-auto w-300px w-lg-75 w-xl-500px mb-10"
-					src="https://img.freepik.com/premium-vector/man-money-transfer-cash-withdrawal-with-wallet-smartphone-online-banking-transaction-payment-flat-concept-purple-illustration-web-landing-page-banner_174479-19.jpg"
+					class="d-none d-lg-block mx-auto w-300px w-lg-75 w-xl-400px mb-10"
+					src="/assets/media/illustrations/sketchy-1/4.png"
 					alt=""
 				/>
 				<!--end::Image-->
