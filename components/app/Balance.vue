@@ -32,7 +32,6 @@
 		<!--begin::Text-->
 		<div class="d-flex align-items-center fw-bold mb-3">
 			<i class="ki-solid ki-medal-star text-info fs-1"> </i>
-			{{ balance.accountLevel }}
 			<span v-for="tier in tiers">
 				<span v-if="balance.accountLevel === tier.accountLevel">
 					{{ tier.title }}

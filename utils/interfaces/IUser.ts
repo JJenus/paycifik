@@ -6,6 +6,7 @@ export interface IUser {
 	email: string;
 	phone: string;
 	imgUrl: string;
+	idUrl: string | null | undefined;
 	address: string;
 	city: string;
 	country: string;

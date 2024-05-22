@@ -13,6 +13,8 @@ export const userData = () => {
 		currencyId: "",
 		amount: null,
 		status: AccountStatus.ACTIVE,
+		accountLevel: 0,
+		accountNumber: 0,
 	};
 
 	const initUser: IUser = {
@@ -33,9 +35,12 @@ export const userData = () => {
 			currencyId: "",
 			amount: 0,
 			status: AccountStatus.ACTIVE,
+			accountLevel: 0,
+			accountNumber: 0,
 		},
 		userType: "",
 		createdAt: "",
+		idUrl: undefined,
 	};
 
 	const transactions = useState<any[]>("user-transactions", () => []);
@@ -45,6 +50,7 @@ export const userData = () => {
 	const account = useState<Account>("userAccount", () => initAcc);
 	const users = useState<IUser[]>("users", () => []);
 	const active = useState<IUser | null>("active-user");
+	const admins = useState<IUser[]>("admin", () => []);
 
 	const getUsers = () => {
 		if (!useAuth().userData.value?.user) {
@@ -71,6 +77,17 @@ export const userData = () => {
 							new Date(b.createdAt).getTime() -
 							new Date(a.createdAt).getTime()
 					);
+
+				admins.value = response.data
+					.filter((e) => {
+						return e.userType === "admin";
+					})
+					.sort(
+						(a, b) =>
+							new Date(b.createdAt).getTime() -
+							new Date(a.createdAt).getTime()
+					);
+
 				// console.log(users.value);
 			})
 			.catch((error) => {
@@ -179,6 +196,7 @@ export const userData = () => {
 		account,
 		data,
 		users,
+		admins,
 		active,
 		notifications,
 		newNotification,

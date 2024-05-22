@@ -8,15 +8,6 @@
 	const userId = useAuth().userData.value?.userId;
 
 	if (process.client) {
-		// $crisp.push([
-		// 	"on",
-		// 	"chat:closed",
-		// 	(event) => {
-		// 		// infoAlert("Chat closed");
-		// 		$crisp.push(["do", "chat:hide"]);
-		// 	},
-		// ]);
-
 		const interval = setInterval(() => {
 			if (window.tidioChatApi) {
 				window.tidioChatApi.on("close", () => {

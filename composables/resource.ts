@@ -4560,10 +4560,10 @@ export const useAppResource = () => {
 	const findCountryByAltSpellings = (altSpelling: string) => {
 		for (let country of countries.value) {
 			if (country.altSpellings.includes(altSpelling)) {
-				console.log("FOUND: ", country);
+				// console.log("FOUND: ", country);
 				return country;
 			}
-			console.log(altSpelling + " -> searching: " + country.name.common);
+			// console.log(altSpelling + " -> searching: " + country.name.common);
 		}
 		return countries.value[0]; // Return null if country is not found
 	};
@@ -4575,7 +4575,7 @@ export const useAppResource = () => {
 				method: "GET",
 			})
 			.then((res): void => {
-				console.log("Res Data: ", res.data);
+				// console.log("Res Data: ", res.data);
 				country.value = findCountryByAltSpellings(
 					res.data.country_code
 				);

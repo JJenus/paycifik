@@ -3,6 +3,7 @@
 	const image = user.value.imgUrl || "/assets/media/svg/avatars/blank.svg";
 
 	const tiers = useAppSettings().accountLevels;
+	const account = user.value.account;
 </script>
 
 <template>
@@ -52,7 +53,7 @@
 						<span v-for="tier in tiers">
 							<span
 								v-if="
-									balance.accountLevel === tier.accountLevel
+									account.accountLevel === tier.accountLevel
 								"
 							>
 								{{ tier.title }}

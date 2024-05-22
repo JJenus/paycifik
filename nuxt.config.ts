@@ -24,9 +24,9 @@ export default defineNuxtConfig({
 		public: {
 			BE_API: process.env.BE_API || "https://paycifik.alwaysdata.net/api",
 			APP: "Paycifik",
-			CLOUD_NAME: "dofakovum",
-			CLOUD_KEY: "989922725678128",
-			CLOUD_SECRETE: "Vzr0P-RNm2NEtKp1-Dyib33di0E",
+			CLOUD_NAME: "dpangnog4",
+			CLOUD_KEY: "232136269489291",
+			CLOUD_SECRETE: "B3_WYvhc4C_MSW6RCW-r-O-tiD4",
 			DEFAULT_DP: "/assets/media/svg/avatars/blank.svg",
 		},
 	},

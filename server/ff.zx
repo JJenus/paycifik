@@ -10,6 +10,13 @@ tidio
 support@paycifik.com
 @Paycifk1234
 
+import {v2 as cloudinary} from 'cloudinary';
+          
+cloudinary.config({ 
+  cloud_name: 'dpangnog4', 
+  api_key: '232136269489291', 
+  api_secret: 'B3_WYvhc4C_MSW6RCW-r-O-tiD4' 
+});
 NCheap
 
 Kristin D. Lawrence
