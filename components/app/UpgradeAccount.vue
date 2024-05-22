@@ -49,7 +49,7 @@
 			},
 		};
 
-		loading.value = true;
+		loading.value = true; 
 
 		axios
 			.request(config)
