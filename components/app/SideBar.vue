@@ -10,8 +10,8 @@
 	// 	]);
 	// }
 	const startChat = () => {
-		tidioChatApi.show();
-		tidioChatApi.open();
+		const chat = useLiveChat();
+		chat.openChat();
 	};
 </script>
 
@@ -34,7 +34,7 @@
 		>
 			<!--begin::Logo image-->
 			<div class="d-flex align-items-center me-auto position-relative">
-				<NFTexLogo :classes="'h-30px'"/>
+				<NFTexLogo :classes="'h-30px'" />
 			</div>
 			<!--end::Logo image-->
 		</div>
@@ -104,7 +104,7 @@
 					<!--end::Title-->
 
 					<!--begin::Action-->
-					<a 
+					<a
 						role="button"
 						class="btn btn-sm btn-primary btn"
 						@click="startChat()"

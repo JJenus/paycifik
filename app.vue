@@ -1,23 +1,7 @@
 <script setup>
+	const liveChat = useLiveChat();
 	if (process.client) {
-		const auth = useAuth();
-
-		const interval = setInterval(() => {
-			if (auth.isAuthenticated()) {
-				const user = auth.userData.value.user;
-				// $crisp.push(["set", "user:nickname", [user.name]]);
-				// $crisp.push(["set", "user:email", [user.email]]);
-
-				if (window.tidioChatApi) {
-					window.tidioChatApi.setVisitorData({
-						name: user.name,
-						email: user.email,
-					});
-
-					clearInterval(interval);
-				}
-			}
-		}, 2000);
+		liveChat.loadChatraScript();
 	}
 </script>
 

@@ -19,8 +19,8 @@
 	}
 
 	const startChat = () => {
-		tidioChatApi.show();
-		tidioChatApi.open();
+		const chat = useLiveChat();
+		chat.openChat();
 	};
 
 	const fetchTransactions = () => {
