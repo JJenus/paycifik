@@ -85,7 +85,6 @@ export default defineNuxtConfig({
 				{
 					src: "/assets/plugins/custom/fslightbox/fslightbox.bundle.js",
 				},
-				{ src: "//code.tidio.co/bjbzqmwlrmapm7zexjdi4t3f3vvogfe7.js" },
 			],
 
 			link: [
