@@ -1,23 +1,20 @@
-<script setup lang="ts">
+<script setup >
 	useHead({
 		script: [
+			{},
 			{
-				src: "https://fw-cdn.com/11709394/4345161.js",
+				src: "https://salesiq.zohopublic.com/widget?wc=siqad025883b3ba07dcf44cd0144f1877b8c15c222d8bebc143429b0fb15d514038",
+				async: true,
 				tagPosition: "bodyClose",
+				id: "zsiqscript",
 			},
+			
 		],
-		// script: [
-		// 	{
-		// 		src: "https://salesiq.zohopublic.com/widget?wc=siqad025883b3ba07dcf44cd0144f1877b8c15c222d8bebc143429b0fb15d514038",
-		// 		async: true,
-		// 		tagPosition: "bodyClose",
-		// 		id: "zsiqscript",
-		// 	},
-		// ],
 	});
+
 	if (process.client) {
-		window.$zoho = window.$zoho || {};
-		$zoho.salesiq = $zoho.salesiq || { ready: function () {} };
+		 window.$zoho = window.$zoho || {};
+		 $zoho.salesiq = $zoho.salesiq || { ready: function () {} };
 	}
 </script>
 
