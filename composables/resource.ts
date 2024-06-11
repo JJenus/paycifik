@@ -4583,7 +4583,7 @@ export const useAppResource = () => {
 			.catch((e) => console.log("Data: ", e));
 	};
 
-	setCountry();
+	// setCountry();
 
 	return {
 		countries,

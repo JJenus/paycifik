@@ -33,10 +33,19 @@ export const useLiveChat = () => {
 			function () {
 				(window.Chatra.q = window.Chatra.q || []).push(arguments);
 			};
-		const script = document.createElement("script");
-		script.async = true;
-		script.src = "https://call.chatra.io/chatra.js";
-		if (document.head) document.head.appendChild(script);
+		// const script = document.createElement("script");
+		// script.async = true;
+		// script.src = "https://call.chatra.io/chatra.js";
+		// if (document.head) document.body.appendChild(script);
+
+		// useHead({
+		// 	script: [
+		// 		{
+		// 			src: "https://call.chatra.io/chatra.js",
+		// 			async: true,
+		// 		},
+		// 	],
+		// });
 
 		load();
 	};

@@ -1,7 +1,23 @@
-<script setup>
-	const liveChat = useLiveChat();
+<script setup lang="ts">
+	useHead({
+		script: [
+			{
+				src: "https://fw-cdn.com/11709394/4345161.js",
+				tagPosition: "bodyClose",
+			},
+		],
+		// script: [
+		// 	{
+		// 		src: "https://salesiq.zohopublic.com/widget?wc=siqad025883b3ba07dcf44cd0144f1877b8c15c222d8bebc143429b0fb15d514038",
+		// 		async: true,
+		// 		tagPosition: "bodyClose",
+		// 		id: "zsiqscript",
+		// 	},
+		// ],
+	});
 	if (process.client) {
-		liveChat.loadChatraScript();
+		window.$zoho = window.$zoho || {};
+		$zoho.salesiq = $zoho.salesiq || { ready: function () {} };
 	}
 </script>
 
