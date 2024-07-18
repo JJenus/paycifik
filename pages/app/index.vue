@@ -1,11 +1,14 @@
 <script setup lang="ts">
 	import moment from "moment";
-	const user = userData().data;
+	const useUserData = userData();
+	const user = useUserData.data;
+
+	const transactions = useUserData.paymentRequests();
 
 	const greet = () => {
 		let userName = user.value.name.split(" ")[0];
 		userName = userName.charAt(0).toUpperCase() + userName.slice(1);
-		
+
 		const now = moment();
 		const hour = now.hour();
 
@@ -75,14 +78,14 @@
 				<span class="card-label fw-bold text-dark"
 					>Payment Requests</span
 				>
-				<span class="text-gray-400 mt-1 fw-semibold fs-6">
+				<span class="text-gray-400 mt-1 fw-semibold fs-6 d-none">
 					0 requests today
 				</span>
 			</h3>
 			<!--end::Title-->
 
 			<!--begin::Toolbar-->
-			<div class="card-toolbar">
+			<div class="card-toolbar d-none">
 				<!--begin::Daterangepicker(defined in src/js/layout/app.js)-->
 				<div
 					data-kt-daterangepicker="true"
@@ -105,14 +108,14 @@
 		<!--end::Header-->
 
 		<!--begin::Card body-->
-		<div class="card-body d-flex align-items-end p-0">
-			<!--begin::Chart-->
-			<div
-				id="kt_charts_widget_36"
-				class="min-h-auto w-100 ps-4 pe-6"
-				style="height: 300px"
-			></div>
-			<!--end::Chart-->
+		<div class="card-body">
+			<div class="min-h-200px">
+				<AppTransactionEntry
+					v-for="(transaction, index) in transactions"
+					:transaction="transaction"
+					:key="index"
+				/>
+			</div>
 		</div>
 		<!--end::Card body-->
 	</div>

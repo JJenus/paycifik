@@ -1,10 +1,11 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { Account, AccountStatus } from "../utils/interfaces/Account";
-import { IUser } from "../utils/interfaces/IUser";
+import { Account, AccountStatus } from "~/utils/interfaces/Account";
+import { IUser } from "~/utils/interfaces/IUser";
 import {
 	INotification,
 	NotificationStatus,
-} from "../utils/interfaces/Notification";
+} from "~/utils/interfaces/Notification";
+import { Transaction, TransactionStatus } from "~/utils/interfaces/Transaction";
 
 export const userData = () => {
 	const initAcc: Account = {
@@ -43,7 +44,7 @@ export const userData = () => {
 		idUrl: undefined,
 	};
 
-	const transactions = useState<any[]>("user-transactions", () => []);
+	const transactions = useState<Transaction[]>("user-transactions", () => []);
 	const notifications = useState<INotification[]>("notifications", () => []);
 	const newNotification = useState<boolean>("new-notifications", () => false);
 	const data = useState<IUser>("userData", () => initUser);
@@ -192,6 +193,12 @@ export const userData = () => {
 			});
 	};
 
+	const paymentRequests = (): Transaction[] => {
+		return transactions.value.filter(
+			(t) => t.status === TransactionStatus.PENDING
+		);
+	};
+
 	return {
 		account,
 		data,
@@ -201,6 +208,7 @@ export const userData = () => {
 		notifications,
 		newNotification,
 		transactions,
+		paymentRequests,
 		getUsers,
 		fetchBalance,
 		getNotifications,
