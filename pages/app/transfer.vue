@@ -3,7 +3,7 @@
 	import {
 		Transaction,
 		TransactionTypes,
-	} from "../../utils/interfaces/Transaction";
+	} from "~/utils/interfaces/Transaction";
 	import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 	// Variables
@@ -24,7 +24,6 @@
 		notes: undefined,
 		beneficiary: {
 			id: undefined,
-			userId: "",
 			name: "",
 			destinationAccount: "",
 			bank: "",
@@ -191,11 +190,13 @@
 		transaction.value.senderId = userData().data.value.id;
 
 		submitButton.value.setAttribute("data-kt-indicator", "on");
-		console.log(transaction.value);
+
+		const validData = copyNonEmptyProperties(transaction.value);
+		console.log(validData);
 
 		const axiosConfig: AxiosRequestConfig = {
 			method: "post",
-			data: transaction.value,
+			data: validData,
 			url: `${appConfig.public.BE_API}/transactions`,
 			timeout: 15000,
 			headers: {
