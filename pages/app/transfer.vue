@@ -210,7 +210,7 @@
 			.then((response) => {
 				const data = response.data;
 				userData().account.value.amount! -= transaction.value.amount;
-				successAlert("Transaction successful");
+				successAlert("Transaction Processing");
 			})
 			.catch((error) => {
 				console.log(error);
