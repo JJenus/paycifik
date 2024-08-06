@@ -1,20 +1,14 @@
-<script setup>
+<script setup lang="ts">
 	definePageMeta({
 		middleware: ["auth"],
 	});
 
-	// if (process.client) {
-	// 	// $crisp.push(["do", "chat:hide"]);
+	const useUserData = userData();
+	const auth = useAuth();
 
-	// 	const interval = setInterval(() => {
-	// 		if (window.tidioChatApi) {
-	// 			if (window.tidioChatApi) {
-	// 				tidioChatApi.hide();
-	// 			}
-	// 			clearInterval(interval);
-	// 		}
-	// 	}, 1000);
-	// }
+	if (auth.isAuthenticated()) {
+		useUserData.fetchTransactions();
+	}
 </script>
 
 <template>

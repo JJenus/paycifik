@@ -6,9 +6,10 @@ export interface Transaction {
 	receiverId: string | undefined;
 	amount: number;
 	type: TransactionTypes;
-	notes: string | undefined;
+	notes?: string | undefined;
 	beneficiary: Beneficiary;
 	status?: TransactionStatus;
+	createdAt: string;
 }
 
 export enum TransactionTypes {

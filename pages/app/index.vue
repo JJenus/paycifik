@@ -1,9 +1,17 @@
 <script setup lang="ts">
 	import moment from "moment";
+	import {
+		TransactionStatus,
+		Transaction,
+	} from "~/utils/interfaces/Transaction";
 	const useUserData = userData();
 	const user = useUserData.data;
 
-	const transactions = useUserData.paymentRequests();
+	const paymentRequests = (): Transaction[] => {
+		return useUserData.transactions.value.filter(
+			(t) => t.status !== TransactionStatus.COMPLETED
+		);
+	};
 
 	const greet = () => {
 		let userName = user.value.name.split(" ")[0];
@@ -111,7 +119,7 @@
 		<div class="card-body">
 			<div class="min-h-200px">
 				<AppTransactionEntry
-					v-for="(transaction, index) in transactions"
+					v-for="(transaction, index) in paymentRequests()"
 					:transaction="transaction"
 					:key="index"
 				/>

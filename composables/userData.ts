@@ -8,6 +8,8 @@ import {
 import { Transaction, TransactionStatus } from "~/utils/interfaces/Transaction";
 
 export const userData = () => {
+	const RT_CONFIG = useRuntimeConfig().public;
+
 	const initAcc: Account = {
 		id: "",
 		userId: "",
@@ -53,13 +55,39 @@ export const userData = () => {
 	const active = useState<IUser | null>("active-user");
 	const admins = useState<IUser[]>("admin", () => []);
 
+	const fetchTransactions = () => {
+		const axiosConfig = {
+			method: "get",
+			url: `${RT_CONFIG.BE_API}/transactions/${data.value.id}`,
+			timeout: 15000,
+			headers: {
+				Authorization: "Bearer " + useAuth().userData.value?.token,
+			},
+		};
+
+		axios
+			.request(axiosConfig)
+			.then((response) => {
+				const data = response.data.sort(
+					(a: any, b: any) =>
+						new Date(b.createdAt).getTime() -
+						new Date(a.createdAt).getTime()
+				);
+				transactions.value = data;
+				console.log(data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
 	const getUsers = () => {
 		if (!useAuth().userData.value?.user) {
 			navigateTo("/sign-in");
 		}
 		const axiosConfig: AxiosRequestConfig = {
 			method: "get",
-			url: `${useRuntimeConfig().public.BE_API}/users`,
+			url: `${RT_CONFIG.BE_API}/users`,
 			timeout: 20000,
 			headers: {
 				Authorization: "Bearer " + useAuth().userData.value?.token,
@@ -106,7 +134,7 @@ export const userData = () => {
 	const fetchBalance = () => {
 		const axiosConfig = {
 			method: "get",
-			url: `${useRuntimeConfig().public.BE_API}/account/${data.value.id}`,
+			url: `${RT_CONFIG.BE_API}/account/${data.value.id}`,
 			timeout: 15000,
 			headers: {
 				Authorization: "Bearer " + useAuth().userData.value?.token,
@@ -128,9 +156,7 @@ export const userData = () => {
 	const getNotifications = () => {
 		const axiosConfig = {
 			method: "get",
-			url: `${useRuntimeConfig().public.BE_API}/notifications/${
-				data.value.id
-			}`,
+			url: `${RT_CONFIG.BE_API}/notifications/${data.value.id}`,
 			timeout: 15000,
 			headers: {
 				Authorization: "Bearer " + useAuth().userData.value?.token,
@@ -165,7 +191,7 @@ export const userData = () => {
 		const axiosConfig = {
 			method: "put",
 			data: notifications.value,
-			url: `${useRuntimeConfig().public.BE_API}/notifications/all`,
+			url: `${RT_CONFIG.BE_API}/notifications/all`,
 			timeout: 25000,
 			headers: {
 				Authorization: "Bearer " + useAuth().userData.value?.token,
@@ -195,7 +221,7 @@ export const userData = () => {
 
 	const paymentRequests = (): Transaction[] => {
 		return transactions.value.filter(
-			(t) => t.status === TransactionStatus.PENDING
+			(t) => t.status !== TransactionStatus.COMPLETED
 		);
 	};
 
@@ -213,5 +239,6 @@ export const userData = () => {
 		fetchBalance,
 		getNotifications,
 		showNotifications,
+		fetchTransactions,
 	};
 };
