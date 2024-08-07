@@ -26,7 +26,7 @@
 		>
 			<div class="card-title">
 				<span
-					class="widget-title fw-bold fs-4 d-flex align-items-center"
+					class="widget-title fw-bold fs-4 d-flex align-items-center text-capitalize"
 				>
 					<i
 						:class="

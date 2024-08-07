@@ -1,6 +1,5 @@
 <script setup lang="ts">
 	import axios from "axios";
-	import Cleave from "cleave.js";
 	import currency from "currency.js";
 	import { AccountLevel } from "utils/interfaces/AccountLevel";
 
@@ -28,13 +27,16 @@
 	});
 
 	const formElement = ref();
+	const edit = ref(false);
 
 	const editLevel = (level: AccountLevel) => {
 		form.value = level;
+		edit.value = true;
 	};
 
 	const clear = () => {
 		form.value = eForm.value;
+		edit.value = false;
 	};
 
 	const money = (amount: string | number) => {
@@ -52,9 +54,11 @@
 
 		loading.value = true;
 
+		const httpMethod = edit ? "PUT" : "POST";
+
 		const axiosConfig: any = {
-			method: "POST",
-			url: `${useRuntimeConfig().public.BE_API}/account-levels`,
+			method: httpMethod,
+			url: `${useRuntimeConfig().public.BE_API}/account-levels${edit? '/'+vData.id:''}`,
 			timeout: 20000,
 			data: vData,
 			headers: {
@@ -67,6 +71,7 @@
 			.then((response) => {
 				tiers.value.push(response.data);
 				successAlert("Saved!");
+				edit.value = false;
 			})
 			.catch((error): void => {
 				console.log(error);
@@ -195,7 +200,8 @@
 						type="reset"
 						class="btn btn-secondary me-3"
 					>
-						Clear
+						<span v-if="edit">Reset</span>
+						<span v-else>Clear</span>
 					</button>
 					<button :disabled="loading" class="btn btn-primary w-100">
 						<span v-if="!loading">Submit</span>

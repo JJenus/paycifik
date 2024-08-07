@@ -1,7 +1,6 @@
 <script setup lang="ts">
 	import { IUser } from "utils/interfaces/IUser";
 	import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-	import { AuthToken } from "utils/interfaces/AuthToken";
 
 	definePageMeta({
 		layout: "app",

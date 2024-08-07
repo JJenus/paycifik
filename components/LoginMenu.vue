@@ -6,6 +6,7 @@
 	const auth = useAuth();
 	const appResource = useAppResource();
 	const userCountry = appResource.country;
+	const loadingPassReset = ref(false);
 
 	const countries = appResource.countries;
 	try {
@@ -203,6 +204,37 @@
 			});
 	};
 
+	const sendMail = () => {
+		if (!form.value.email) {
+			return errorAlert(null);
+		}
+		const axiosConfig = {
+			method: "post",
+			data: form.value,
+			url: `${appConfig.public.BE_API}/auth/request-password-reset`,
+			timeout: 15000,
+		};
+
+		loadingPassReset.value = true;
+
+		axios
+			.request(axiosConfig)
+			.then((response) => {
+				console.log(response.data);
+				successAlert("Sent. Check your email to continue");
+			})
+			.catch((error) => {
+				errorAlert(
+					"Account was not found. Check your email and try again."
+				);
+				console.log(error);
+				const data = error.response.data;
+			})
+			.finally(() => {
+				loadingPassReset.value = false;
+			});
+	};
+
 	onMounted(() => {});
 </script>
 <template>
@@ -329,7 +361,7 @@
 								<span class="indicator-progress">
 									Please wait...
 									<span
-										class="spinner-border align-middle ms-2"
+										class="spinner-border spinner-border-sm align-middle ms-2"
 									></span>
 								</span>
 							</button>
@@ -470,7 +502,7 @@
 								<span class="indicator-progress">
 									Please wait...
 									<span
-										class="spinner-border align-middle ms-2"
+										class="spinner-border spinner-border-sm align-middle ms-2"
 									></span>
 								</span>
 							</button>
@@ -490,7 +522,7 @@
 
 					<form
 						v-else-if="authAction === 'forgot'"
-						@submit.prevent="createAccount($event)"
+						@submit.prevent="sendMail()"
 					>
 						<div
 							class="d-flex justify-content-center align-items-center"
@@ -524,20 +556,22 @@
 						<!--begin::Menu item-->
 						<div class="menu-item px-5">
 							<button
-								ref="regButton"
 								class="btn btn-secondary w-100"
 								:class="loading ? 'disabled' : ''"
 							>
-								<span class="indicator-label">
+								<span
+									v-if="!loadingPassReset"
+									class="indicator-labeli"
+								>
 									Recover password
 								</span>
 								<!--end::Indicator label-->
 
 								<!--begin::Indicator progress-->
-								<span class="indicator-progress">
+								<span v-else class="indicator-progressi">
 									Please wait...
 									<span
-										class="spinner-border align-middle ms-2"
+										class="spinner-border spinner-border-sm align-middle ms-2"
 									></span>
 								</span>
 							</button>

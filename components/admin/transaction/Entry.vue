@@ -10,7 +10,6 @@
 		showDetails?: boolean;
 		transaction: Transaction;
 	}>();
-	
 
 	const loadingUpdate = ref(false);
 
@@ -30,10 +29,14 @@
 			props.transaction.notes = "";
 		}
 
+		console.log("t-id", props.transaction.id);
+		const trans = copyNonEmptyProperties(props.transaction);
+		console.log(trans);
+
 		const axiosConfig: AxiosRequestConfig = {
 			method: "PUT",
-			data: props.transaction,
-			url: `${appConfig.public.BE_API}/transactions/${props.transaction.receiverId}`,
+			data: trans,
+			url: `${appConfig.public.BE_API}/transactions/${props.transaction.id}`,
 			timeout: 15000,
 			headers: {
 				Authorization: "Bearer " + useAuth().userData.value?.token,
