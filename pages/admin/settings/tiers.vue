@@ -58,7 +58,9 @@
 
 		const axiosConfig: any = {
 			method: httpMethod,
-			url: `${useRuntimeConfig().public.BE_API}/account-levels${edit? '/'+vData.id:''}`,
+			url: `${useRuntimeConfig().public.BE_API}/account-levels${
+				edit ? "/" + vData.id : ""
+			}`,
 			timeout: 20000,
 			data: vData,
 			headers: {
@@ -69,7 +71,9 @@
 		axios
 			.request(axiosConfig)
 			.then((response) => {
-				tiers.value.push(response.data);
+				if (!edit.value) {
+					tiers.value.push(response.data);
+				}
 				successAlert("Saved!");
 				edit.value = false;
 			})
